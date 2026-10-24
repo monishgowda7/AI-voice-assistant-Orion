@@ -95,8 +95,7 @@ Make sure your microphone is connected and any required API keys or environment 
 | Tool | What it does |
 |------|--------------|
 | get_todays_news | Fetches live trending news headlines |
-| get_current_time | Returns the current time and date |
-| end_conversation | Says goodbye and closes the session |
+
 
 ## Tech Stack
 
