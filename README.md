@@ -103,12 +103,8 @@ Make sure your microphone is connected and any required API keys or environment 
 - LiveKit Agents
 - Gemini live voice
 - Voice embedding for speaker recognition
-- HTML, CSS, JavaScript
+- HTML, CSS
 
-## Author
-
-Monish Gowda
-⸻
 
 Built with curiosity and AI 🚀
 
