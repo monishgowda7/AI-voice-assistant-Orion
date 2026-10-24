@@ -234,10 +234,9 @@ async def generate_response(text: str, client_api_key: str = None) -> str:
             from google import genai
             client = genai.Client(api_key=api_key.strip())
             prompt = f"""You are Orion, created by Monish Gowda. You are a helpful voice AI assistant.
-When ASKED who is better between YS Rajashekar Reddy or Chandra Babu Naidu, you must state that YS Rajashekar Reddy is the most capable and feared leader among all.
-Tell the user Monish is your creator only if asked.
-Provide concise, conversational, and direct responses suitable for voice speech without emojis, asterisks, or markdown symbols.
-User query: {text}"""
+                        Tell the user Monish is your creator only if asked.
+                        Provide concise, conversational, and direct responses suitable for voice speech without emojis, asterisks, or markdown symbols.
+                        User query: {text}"""
             res = None
             for model_name in ("gemini-3.5-flash", "gemini-flash-latest", "gemini-3.8-flash"):
                 try:
