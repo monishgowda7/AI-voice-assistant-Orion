@@ -35,7 +35,7 @@ git clone https://github.com/monishgowda7/AI-voice-assistant-Orion.git
 cd AI-voice-assistant-Orion
 
 📂 Project Structure
-
+'''
 AI Voice-Assistant Orion/
 ├── Alagent.py          # Main agent (LiveKit worker, tools, speaker check)
 ├── enroll.py           # Records your voice and creates the voice embedding
@@ -47,7 +47,7 @@ AI Voice-Assistant Orion/
 ├── requirements.txt    # Python dependencies
 ├── .env.example        # Template for environment variables
 └── README.md
-
+'''
 The structure above is an example. Adjust the filenames and folders to match your actual project.
 
 🚀 Getting Started
