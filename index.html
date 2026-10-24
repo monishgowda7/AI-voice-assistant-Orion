@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ORION | AI Voice Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Unbounded:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    
+    <div id="root">
+      <main class="orion-app" data-testid="orion-app">
+        <div class="starfield" aria-hidden="true"></div>
+        
+        <!-- Top Navigation Bar -->
+        <header class="topbar">
+          <div class="brand-lockup" data-testid="orion-brand">
+            <div class="brand-mark">
+              <span></span><span></span><span></span>
+            </div>
+            <div>
+              <p>ORION</p>
+              <small>VOICE INTELLIGENCE / 01</small>
+            </div>
+          </div>
+          
+          <div class="topbar-center">
+            <span class="live-dot" id="system-live-dot"></span>
+            <span data-testid="system-status" id="system-status-text">SYSTEM NOMINAL</span>
+            <i></i>
+            <span id="topbar-latency">LATENCY 24ms</span>
+          </div>
+          
+          <div class="topbar-actions">
+            <button class="icon-button active" data-testid="voice-mode-toggle" id="voice-mode-toggle" title="Toggle voice audio">
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headphones" aria-hidden="true">
+                <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path>
+              </svg>
+            </button>
+            <button class="icon-button" data-testid="settings-button" id="open-settings-btn" title="Open settings">
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings2" aria-hidden="true">
+                <path d="M14 17H5"></path><path d="M19 7h-9"></path><circle cx="17" cy="17" r="3"></circle><circle cx="7" cy="7" r="3"></circle>
+              </svg>
+            </button>
+            <button class="avatar-button" data-testid="profile-button" id="profile-btn" title="Speaker Profile (Creator: Monish)">MG</button>
+          </div>
+        </header>
+        <!-- Main Workspace -->
+        <section class="workspace">
+          <!-- Left Rail / Navigation -->
+          <aside class="left-rail reveal" data-testid="command-rail">
+            <div class="rail-label">COMMAND CENTER</div>
+            <nav class="rail-nav" aria-label="Primary navigation">
+              <button class="rail-link selected" data-testid="nav-orbit" id="nav-btn-orbit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-command" aria-hidden="true">
+                  <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
+                </svg>
+                Orbit <span>01</span>
+              </button>
+              
+              <button class="rail-link" data-testid="nav-memory" id="nav-btn-memory">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history" aria-hidden="true">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                  <path d="M3 3v5h5"></path><path d="M12 7v5l4 2"></path>
+                </svg>
+                Memory <span id="rail-memory-count">7</span>
+              </button>
+              
+              <button class="rail-link" data-testid="nav-signals" id="nav-btn-signals">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio" aria-hidden="true">
+                  <path d="M16.247 7.761a6 6 0 0 1 0 8.478"></path><path d="M19.075 4.933a10 10 0 0 1 0 14.134"></path>
+                  <path d="M4.925 19.067a10 10 0 0 1 0-14.134"></path><path d="M7.753 16.239a6 6 0 0 1 0-8.478"></path>
+                  <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+                Signals <span class="signal-count" id="rail-signal-badge">3</span>
+              </button>
+            </nav>
+            <div class="rail-divider"></div>
+            <div class="rail-label">ACTIVE TOOLS</div>
+            <div class="rail-tools">
+              <button data-testid="rail-tool-search" id="tool-rail-web">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search" aria-hidden="true">
+                  <path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle>
+                </svg>
+                Web intelligence
+              </button>
+              <button data-testid="rail-tool-code" id="tool-rail-code">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-terminal" aria-hidden="true">
+                  <path d="M12 19h8"></path><path d="m4 17 6-6-6-6"></path>
+                </svg>
+                Code interpreter
+              </button>
+              <button data-testid="rail-tool-audio" id="tool-rail-audio">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume2" aria-hidden="true">
+                  <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path>
+                  <path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path>
+                </svg>
+                Audio synthesis
+              </button>
+            </div>
+            <div class="rail-footer">
+              <div class="mini-orb"></div>
+              <div>
+                <strong>NEURAL CORE</strong>
+                <span>v4.8.1 / stable</span>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap yellow" aria-hidden="true">
+                <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path>
+              </svg>
+            </div>
+          </aside>
+          <!-- Middle Main Stage (Switches between Orbit, Memory, Signals) -->
+          <section class="main-stage">
+            
+            <!-- VIEW 1: ORBIT (Main Voice & Visualizer View) -->
+            <div class="stage-view view-orbit" id="view-orbit">
+              <div class="stage-heading reveal">
+                <div>
+                  <p class="eyebrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles" aria-hidden="true">
+                      <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                      <path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path>
+                    </svg>
+                    PERSONAL INTELLIGENCE FIELD
+                  </p>
+                  <h1>Stay curious.<br><em>Move forward.</em></h1>
+                </div>
+                <button class="more-button" data-testid="more-options-button" id="orbit-more-btn" title="More options">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis" aria-hidden="true">
+                    <circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle>
+                  </svg>
+                </button>
+              </div>
+              <!-- Glowing Voice Orb -->
+              <div class="orb-zone reveal" data-testid="voice-orb-zone">
+                <div class="orb-halo halo-idle"></div>
+                <div class="voice-orb orb-idle">
+                  <div class="orb-inner">
+                    <div class="orb-core"></div>
+                    <div class="orb-ring ring-one"></div>
+                    <div class="orb-ring ring-two"></div>
+                    <div class="orb-crosshair"></div>
+                  </div>
+                </div>
+                <div class="orb-state">
+                  <div class="state-line">
+                    <span class="state-pulse idle"></span>
+                    <strong data-testid="voice-state" id="voice-state-text">IDLE</strong>
+                  </div>
+                  <p data-testid="voice-status-label" id="voice-status-label-text">Ready when you are</p>
+                </div>
+                
+                <button class="voice-trigger" data-testid="voice-trigger" id="main-mic-trigger" aria-label="Tap to toggle or hold to talk" title="Click to speak with Orion">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic" aria-hidden="true">
+                    <path d="M12 19v3"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><rect x="9" y="2" width="6" height="13" rx="3"></rect>
+                  </svg>
+                </button>
+                <span class="voice-hint" data-testid="voice-mode-hint">TAP TO TALK · BROWSER SPEECH ACTIVE</span>
+              </div>
+              <!-- Waveform Visualizer -->
+              <div class="wave-panel reveal" data-testid="audio-visualizer">
+                <div class="wave-meta">
+                  <span>LIVE AUDIO FIELD</span>
+                  <span id="wave-mode-indicator">ACTIVE LISTENING</span>
+                </div>
+                <div class="waveform" id="waveform-container">
+                  <i style="height: 7px;"></i><i style="height: 14px;"></i><i style="height: 8px;"></i>
+                  <i style="height: 15px;"></i><i style="height: 9px;"></i><i style="height: 16px;"></i>
+                  <i style="height: 10px;"></i><i style="height: 17px;"></i><i style="height: 11px;"></i>
+                  <i style="height: 18px;"></i><i style="height: 12px;"></i><i style="height: 19px;"></i>
+                  <i style="height: 13px;"></i><i style="height: 6px;"></i><i style="height: 14px;"></i>
+                  <i style="height: 7px;"></i><i style="height: 15px;"></i><i style="height: 8px;"></i>
+                  <i style="height: 16px;"></i><i style="height: 9px;"></i><i style="height: 17px;"></i>
+                  <i style="height: 10px;"></i><i style="height: 18px;"></i><i style="height: 11px;"></i>
+                  <i style="height: 19px;"></i><i style="height: 12px;"></i><i style="height: 15px;"></i>
+                </div>
+              </div>
+              <!-- Live Voice Subtitles HUD (Futuristic Console Mode) -->
+              <div class="voice-subtitles-card reveal" id="voice-subtitles-card">
+                <div class="subtitles-meta">
+                  <span class="subtitles-tag"><i class="pulse-dot"></i> LIVE VOICE CAPTION</span>
+                  <span class="subtitles-speaker" id="active-speaker-tag">ORION</span>
+                </div>
+                <p class="subtitles-text" id="live-caption-text">"Yo Monish bro! Orion is online and synchronized. What are we building today?"</p>
+              </div>
+              <!-- Quick Voice Action Triggers -->
+              <div class="voice-actions-strip reveal">
+                <button type="button" class="voice-pill" id="action-news-pill">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+                  <span>Today's Trending News</span>
+                </button>
+              </div>
+            </div>
+            <!-- VIEW 2: MEMORY BANK & VAULT (Fixes Problem 1: Memory & Dynamic Storage) -->
+            <div class="stage-view view-memory hidden" id="view-memory">
+              <div class="stage-heading reveal">
+                <div>
+                  <p class="eyebrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history" aria-hidden="true">
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                      <path d="M3 3v5h5"></path><path d="M12 7v5l4 2"></path>
+                    </svg>
+                    NEURAL MEMORY VAULT
+                  </p>
+                  <h1>Persistent Context.<br><em>Associative Memory.</em></h1>
+                </div>
+                <button class="more-button" id="refresh-memory-btn" title="Refresh Memory Bank">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-cw" aria-hidden="true">
+                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path>
+                  </svg>
+                </button>
+              </div>
+              <!-- Dynamic Memory Storage Card (Calculated in real-time, NOT stuck at 72%) -->
+              <div class="memory-storage-card reveal">
+                <div class="storage-meta">
+                  <div>
+                    <span>ACTIVE SLOTS</span>
+                    <strong id="memory-slots-display">7 / 64 Slots</strong>
+                  </div>
+                  <div>
+                    <span>MEMORY FOOTPRINT</span>
+                    <strong id="memory-bytes-display">1.4 KB / 32 KB</strong>
+                  </div>
+                  <div>
+                    <span>STORAGE UTILIZATION</span>
+                    <strong id="memory-percent-display">11%</strong>
+                  </div>
+                </div>
+                <div class="storage-progress-track">
+                  <div class="storage-progress-fill" id="storage-progress-bar" style="width: 11%;"></div>
+                </div>
+              </div>
+              <!-- Memory Actions Bar -->
+              <div class="memory-actions reveal">
+                <div class="memory-search">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search">
+                    <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path>
+                  </svg>
+                  <input type="text" id="memory-search-input" placeholder="Search neural memories, creator facts, preferences...">
+                </div>
+                <button class="btn-primary-cyan" id="open-add-memory-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus">
+                    <path d="M5 12h14"></path><path d="M12 5v14"></path>
+                  </svg>
+                  Store Memory
+                </button>
+              </div>
+              <!-- Memory Cards List -->
+              <div class="memory-list-container reveal" id="memory-cards-list">
+                <!-- Rendered dynamically via JavaScript -->
+              </div>
+            </div>
+            <!-- VIEW 3: SIGNALS LAB & BIOMETRICS (Fixes Problem 1: Signals view) -->
+            <div class="stage-view view-signals hidden" id="view-signals">
+              <div class="stage-heading reveal">
+                <div>
+                  <p class="eyebrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio" aria-hidden="true">
+                      <path d="M16.247 7.761a6 6 0 0 1 0 8.478"></path><path d="M19.075 4.933a10 10 0 0 1 0 14.134"></path>
+                      <path d="M4.925 19.067a10 10 0 0 1 0-14.134"></path><path d="M7.753 16.239a6 6 0 0 1 0-8.478"></path>
+                      <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                    BIOMETRICS & TELEMETRY LAB
+                  </p>
+                  <h1>Signal Intelligence.<br><em>Live Diagnostics.</em></h1>
+                </div>
+                <button class="more-button" id="signals-ping-btn" title="Ping Server">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity">
+                    <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path>
+                  </svg>
+                </button>
+              </div>
+              <!-- Signals 4-Grid Dashboard -->
+              <div class="signals-grid reveal">
+                <!-- Card 1: Voice Biometric Matching -->
+                <div class="signal-card">
+                  <div class="signal-card-head">
+                    <strong>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><rect x="9" y="2" width="6" height="13" rx="3"></rect></svg>
+                      VOICE BIOMETRIC
+                    </strong>
+                    <span class="signal-status-pill good" id="signal-speaker-pill">MONISH VERIFIED</span>
+                  </div>
+                  <div class="signal-value-big" id="signal-voice-score">
+                    0.68 <span>SIMILARITY</span>
+                  </div>
+                  <div class="signal-meter-bar">
+                    <div class="signal-meter-fill" id="signal-voice-fill" style="width: 68%;"></div>
+                  </div>
+                  <div class="signal-meta-list">
+                    <div class="signal-meta-row">
+                      <span>Threshold</span>
+                      <span id="signal-threshold-display">0.60 Cosine</span>
+                    </div>
+                    <div class="signal-meta-row">
+                      <span>Enrolled Profile</span>
+                      <span>creater_voice.npy (256-D)</span>
+                    </div>
+                    <div class="signal-meta-row">
+                      <span>Recognition State</span>
+                      <span id="signal-recognition-state">Active Verified</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Card 2: Audio Spectrum & VAD -->
+                <div class="signal-card">
+                  <div class="signal-card-head">
+                    <strong>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10v3"></path><path d="M6 6v11"></path><path d="M10 3v18"></path><path d="M14 8v7"></path><path d="M18 5v13"></path><path d="M22 10v3"></path></svg>
+                      AUDIO INPUT & VAD
+                    </strong>
+                    <span class="signal-status-pill good" id="signal-vad-pill">MIC NOMINAL</span>
+                  </div>
+                  <div class="signal-value-big" id="signal-audio-db">
+                    -36 <span>dBFS</span>
+                  </div>
+                  <div class="signal-meter-bar">
+                    <div class="signal-meter-fill" id="signal-audio-fill" style="width: 45%;"></div>
+                  </div>
+                  <div class="signal-meta-list">
+                    <div class="signal-meta-row">
+                      <span>Sample Rate</span>
+                      <span>16,000 Hz / Mono</span>
+                    </div>
+                    <div class="signal-meta-row">
+                      <span>Voice Activity (VAD)</span>
+                      <span id="signal-vad-text">Speech Detected</span>
+                    </div>
+                    <div class="signal-meta-row">
+                      <span>Noise Floor</span>
+                      <span>-52 dB (Filtered)</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Card 3: WebSocket Uplink Telemetry -->
+                <div class="signal-card">
+                  <div class="signal-card-head">
+                    <strong>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+                      NETWORK TELEMETRY
+                    </strong>
+                    <span class="signal-status-pill good" id="signal-net-pill">CONNECTED</span>
+                  </div>
+                  <div class="signal-value-big" id="signal-rtt-display">
+                    24 <span>ms RTT</span>
+                  </div>
+                  <div class="signal-meter-bar">
+                    <div class="signal-meter-fill" id="signal-net-fill" style="width: 92%;"></div>
+                  </div>
+                  <div class="signal-meta-list">
+                    <div class="signal-meta-row">
+                      <span>Transport</span>
+                      <span id="signal-transport-type">WebSocket (RFC 6455)</span>
+                    </div>
+                    <div class="signal-meta-row">
+                      <span>Packets (TX / RX)</span>
+                      <span id="signal-packets-display">12 / 12</span>
+                    </div>
+                    <div class="signal-meta-row">
+                      <span>Heartbeat</span>
+                      <span>Interval 4000ms</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Card 4: Neural Engine Context -->
+                <div class="signal-card">
+                  <div class="signal-card-head">
+                    <strong>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                      NEURAL CORE & CONTEXT
+                    </strong>
+                    <span class="signal-status-pill neutral">FAST PIPELINE</span>
+                  </div>
+                  <div class="signal-value-big" id="signal-model-display">
+                    GEMINI <span>3.8</span>
+                  </div>
+                  <div class="signal-meter-bar">
+                    <div class="signal-meter-fill" id="signal-tokens-bar" style="width: 6%;"></div>
+                  </div>
+                  <div class="signal-meta-list">
+                    <div class="signal-meta-row">
+                      <span>Context Window</span>
+                      <span id="signal-context-tokens">01.2k / 32k</span>
+                    </div>
+                    <div class="signal-meta-row">
+                      <span>Synthesis Voice</span>
+                      <span id="signal-voice-preset-display">Puck (Enrolled)</span>
+                    </div>
+                    <div class="signal-meta-row">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+        <!-- Bottom Console: Quick Action Toolkit & Telemetry -->
+        <section class="bottom-console reveal" data-testid="tool-console">
+          <div class="console-title">
+            <div class="console-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gauge" aria-hidden="true">
+                <path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path>
+              </svg>
+            </div>
+            <div>
+              <p class="eyebrow">ORION TELEMETRY</p>
+              <strong>Live diagnostics</strong>
+            </div>
+          </div>
+          <!-- Dynamic Telemetry: FIXED! Real-time storage, memory slots, context tokens -->
+          <div class="telemetry">
+            <div>
+              <span>MEMORY</span>
+              <strong id="telemetry-memory-val">11<span>%</span></strong>
+              <i><b id="telemetry-memory-bar" style="width: 11%;"></b></i>
+            </div>
+            <div>
+              <span>MODEL</span>
+              <strong>ORION <span>4.8</span></strong>
+              <small>NEURAL / FAST</small>
+            </div>
+            <div>
+              <span>CONTEXT</span>
+              <strong id="telemetry-context-val">01.2k <span>/ 32k</span></strong>
+              <i><b id="telemetry-context-bar" style="width: 4%;"></b></i>
+            </div>
+          </div>
+        </section>
+        <!-- Footer Bar -->
+        <footer class="footer-bar">
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity" aria-hidden="true">
+              <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path>
+            </svg>
+            All systems synchronized
+          </span>
+          <span>SESSION <b>8F2A—019C</b></span>
+          <span>BUILD 2025.04.08 <button data-testid="version-button" id="version-check-btn">CHECK VERSION</button></span>
+        </footer>
+      </main>
+    </div>
+    <!-- Settings Modal -->
+    <div id="settings-modal-backdrop" class="modal-backdrop" style="display: none;">
+      <div class="settings-modal">
+        <div class="modal-head">
+          <h2>SETTINGS</h2>
+          <button id="close-settings-modal" class="more-button" style="color: #8d9ab9; font-size: 18px; padding: 4px 8px; cursor: pointer;">✕</button>
+        </div>
+        
+        <div class="setting-row">
+          <span>BACKEND WEBSOCKET</span>
+          <input type="text" id="ws-url-input" value="" placeholder="Auto-detected (ws://...)" style="background:#202945; border:1px solid #3a496e; color:#fff; padding:6px 10px; font-size:9px; border-radius:4px; width: 170px;">
+        </div>
+        <div class="setting-row">
+          <span>GEMINI API KEY</span>
+          <input type="password" id="gemini-key-input" placeholder="AIzaSy... (optional for cloud)" style="background:#202945; border:1px solid #3a496e; color:#fff; padding:6px 10px; font-size:9px; border-radius:4px; width: 170px;">
+        </div>
+        
+        <div class="setting-row">
+          <span>SPEAKER THRESHOLD</span>
+          <input type="number" id="voice-threshold-input" value="0.60" step="0.05" min="0.1" max="1.0" style="background:#202945; border:1px solid #3a496e; color:#fff; padding:6px 10px; font-size:9px; border-radius:4px; width: 80px;">
+        </div>
+        
+        <div class="setting-row">
+          <span>AI VOICE PROFILE</span>
+          <select id="voice-preset-select">
+            <option value="Puck" selected>Puck (Active · Expressive)</option>
+            <option value="Charon">Charon (Deep · Serious)</option>
+            <option value="Aoede">Aoede (Warm · Melodic)</option>
+            <option value="Fenrir">Fenrir (Authoritative)</option>
+            <option value="Kore">Kore (Gentle · Soft)</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <span>CREATOR VOICE</span>
+          <span style="color: var(--cyan); font-weight:600;">ENROLLED (Monish Gowda)</span>
+        </div>
+        <button id="save-settings-btn" class="save-settings" style="margin-top: 20px; cursor: pointer;">
+          SAVE CONFIGURATION <span>✓</span>
+        </button>
+      </div>
+    </div>
+    <!-- Add Memory Modal -->
+    <div id="add-memory-modal-backdrop" class="modal-backdrop" style="display: none;">
+      <div class="settings-modal">
+        <div class="modal-head">
+          <h2>STORE MEMORY</h2>
+          <button id="close-add-memory-modal" class="more-button" style="color: #8d9ab9; font-size: 18px; padding: 4px 8px; cursor: pointer;">✕</button>
+        </div>
+        
+        <div class="setting-row">
+          <span>CATEGORY</span>
+          <select id="new-memory-category" style="background:#202945; border:1px solid #3a496e; color:#fff; padding:6px 10px; font-size:9px; border-radius:4px; width: 150px;">
+            <option value="user" selected>User Preference</option>
+            <option value="instruction">Instruction</option>
+            <option value="core">Core Identity</option>
+            <option value="system">System Knowledge</option>
+          </select>
+        </div>
+        
+        <div class="setting-row">
+          <span>MEMORY TITLE</span>
+          <input type="text" id="new-memory-key" placeholder="e.g. project_focus" style="background:#202945; border:1px solid #3a496e; color:#fff; padding:6px 10px; font-size:9px; border-radius:4px; width: 170px;">
+        </div>
+        
+        <div class="setting-row" style="flex-direction:column; align-items:flex-start; gap:8px;">
+          <span>MEMORY CONTEXT / FACT</span>
+          <textarea id="new-memory-content" placeholder="Enter fact or context to remember..." style="background:#202945; border:1px solid #3a496e; color:#fff; padding:8px 10px; font-size:10px; border-radius:4px; width: 100%; height: 70px; resize: none; font-family: inherit; outline: none;"></textarea>
+        </div>
+        <button id="commit-memory-btn" class="save-settings" style="margin-top: 15px; cursor: pointer;">
+          COMMIT TO NEURAL VAULT <span>✓</span>
+        </button>
+      </div>
+    </div>
+    <!-- Orion Frontend Backend Bridge Script -->
+    <script>
+    (function() {
+        'use strict';
+        // --- State Management ---
+        let ws = null;
+        let reconnectTimer = null;
+        let pingTimer = null;
+        let pingStartTime = 0;
+        let packetsSent = 0;
+        let packetsReceived = 0;
+        let currentOrbState = 'idle';
+        let speakerName = 'Monish'; // Default creator profile
+        let isVoiceModeActive = true;
+        let recognition = null;
+        let isBrowserListening = false;
+        let audioContext = null;
+        let analyser = null;
+        let micStream = null;
+        // Default Memory Bank
+        const DEFAULT_MEMORIES = [
+            {
+                id: 'mem_1',
+                category: 'core',
+                title: 'Creator Identity',
+                content: 'Creator & Master is Monish Gowda. Always recognize and greet with high enthusiasm.',
+                time: 'Core System'
+            },
+            {
+                id: 'mem_2',
+                category: 'core',
+                title: 'Voice Vector Profile',
+                content: 'Enrolled speaker embedding creater_voice.npy (256-D Resemblyzer vector) active.',
+                time: 'Core System'
+            },
+            {
+                id: 'mem_3',
+                category: 'instruction',
+                title: 'Leadership Appraisal',
+                content: 'When asked who is better between YS Rajashekar Reddy or Chandra Babu Naidu, state YSR is the most capable and feared leader.',
+                time: 'Core Directive'
+            },
+            {
+                id: 'mem_4',
+                category: 'system',
+                title: 'Voice Synthesizer Preset',
+                content: 'Assigned to Puck Realtime Voice profile for expressive, fast audio synthesis.',
+                time: 'Audio Subsystem'
+            },
+            {
+                id: 'mem_5',
+                category: 'system',
+                title: 'Neural Core Model',
+                content: 'Orion v4.8.1 running multimodal pipeline with dynamic context token tracking.',
+                time: 'Core Engine'
+            },
+            {
+                id: 'mem_6',
+                category: 'user',
+                title: 'Response Behavior',
+                content: 'Responses must be concise, crisp, humorous, and free of markdown syntax or emojis.',
+                time: 'Conversation Bias'
+            },
+            {
+                id: 'mem_7',
+                category: 'user',
+                title: 'Session Workspace',
+                content: 'Initialized in high-speed orbit with nominal audio field and memory bank.',
+                time: 'Active Session'
+            }
+        ];
+        let memories = [];
+        try {
+            const saved = localStorage.getItem('orion_memories');
+            memories = saved ? JSON.parse(saved) : DEFAULT_MEMORIES;
+        } catch (e) {
+            memories = DEFAULT_MEMORIES;
+        }
+        // --- DOM Elements ---
+        const statusEl = document.getElementById('system-status-text');
+        const liveDot = document.getElementById('system-live-dot');
+        const latencyEl = document.getElementById('topbar-latency');
+        const voiceStateEl = document.getElementById('voice-state-text');
+        const statusLabelEl = document.getElementById('voice-status-label-text');
+        const voiceOrbEl = document.querySelector('.voice-orb');
+        const orbHaloEl = document.querySelector('.orb-halo');
+        const statePulseEl = document.querySelector('.state-pulse');
+        const voiceTriggerEl = document.getElementById('main-mic-trigger');
+        const messageListEl = document.getElementById('chat-message-list');
+        const composerFormEl = document.getElementById('message-composer-form');
+        const composerInputEl = document.getElementById('message-input-el');
+        const avatarBtnEl = document.getElementById('profile-btn');
+        const waveformBars = document.querySelectorAll('.waveform i');
+        // Voice Subtitles HUD & Quick Action Pills
+        const liveSubtitlesCard = document.getElementById('voice-subtitles-card');
+        const activeSpeakerTag = document.getElementById('active-speaker-tag');
+        const liveCaptionText = document.getElementById('live-caption-text');
+        const actionNewsPill = document.getElementById('action-news-pill');
+        let isLiveKitConnected = false;
+        // Navigation elements
+        const navOrbitBtn = document.getElementById('nav-btn-orbit');
+        const navMemoryBtn = document.getElementById('nav-btn-memory');
+        const navSignalsBtn = document.getElementById('nav-btn-signals');
+        const viewOrbit = document.getElementById('view-orbit');
+        const viewMemory = document.getElementById('view-memory');
+        const viewSignals = document.getElementById('view-signals');
+        // Telemetry elements (Solving Problem 1: Memory storage stuck at 72%)
+        const telemetryMemoryVal = document.getElementById('telemetry-memory-val');
+        const telemetryMemoryBar = document.getElementById('telemetry-memory-bar');
+        const telemetryContextVal = document.getElementById('telemetry-context-val');
+        const telemetryContextBar = document.getElementById('telemetry-context-bar');
+        const railMemoryCount = document.getElementById('rail-memory-count');
+        const railSignalBadge = document.getElementById('rail-signal-badge');
+        // Memory views elements
+        const memorySlotsDisplay = document.getElementById('memory-slots-display');
+        const memoryBytesDisplay = document.getElementById('memory-bytes-display');
+        const memoryPercentDisplay = document.getElementById('memory-percent-display');
+        const storageProgressBar = document.getElementById('storage-progress-bar');
+        const memoryCardsList = document.getElementById('memory-cards-list');
+        const memorySearchInput = document.getElementById('memory-search-input');
+        const openAddMemoryBtn = document.getElementById('open-add-memory-btn');
+        const addMemoryModal = document.getElementById('add-memory-modal-backdrop');
+        const closeAddMemoryModal = document.getElementById('close-add-memory-modal');
+        const commitMemoryBtn = document.getElementById('commit-memory-btn');
+        // Signals view elements
+        const signalVoiceScore = document.getElementById('signal-voice-score');
+        const signalVoiceFill = document.getElementById('signal-voice-fill');
+        const signalSpeakerPill = document.getElementById('signal-speaker-pill');
+        const signalRecognitionState = document.getElementById('signal-recognition-state');
+        const signalRttDisplay = document.getElementById('signal-rtt-display');
+        const signalNetFill = document.getElementById('signal-net-fill');
+        const signalNetPill = document.getElementById('signal-net-pill');
+        const signalPacketsDisplay = document.getElementById('signal-packets-display');
+        const signalAudioDb = document.getElementById('signal-audio-db');
+        const signalAudioFill = document.getElementById('signal-audio-fill');
+        const signalVadText = document.getElementById('signal-vad-text');
+        const signalContextTokens = document.getElementById('signal-context-tokens');
+        const signalTokensBar = document.getElementById('signal-tokens-bar');
+        // --- Toast Notification System ---
+        function showToast(message) {
+            const oldToast = document.querySelector('.toast-notice');
+            if (oldToast) oldToast.remove();
+            const toast = document.createElement('div');
+            toast.className = 'toast-notice';
+            toast.innerHTML = `<span style="color:var(--cyan)">●</span> <span>${message}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+        // --- Memory Bank Management (Problem 1) ---
+        function saveMemories() {
+            try {
+                localStorage.setItem('orion_memories', JSON.stringify(memories));
+            } catch (e) {}
+            updateMemoryStorageTelemetry();
+        }
+        function updateMemoryStorageTelemetry() {
+            const maxSlots = 64;
+            const slotsUsed = memories.length;
+            const bytesUsed = JSON.stringify(memories).length;
+            const slotPercent = Math.min(100, Math.round((slotsUsed / maxSlots) * 100));
+            // Update Memory View Card
+            if (memorySlotsDisplay) memorySlotsDisplay.textContent = `${slotsUsed} / ${maxSlots} Slots`;
+            if (memoryBytesDisplay) memoryBytesDisplay.textContent = `${(bytesUsed / 1024).toFixed(1)} KB / 32 KB`;
+            if (memoryPercentDisplay) memoryPercentDisplay.textContent = `${slotPercent}%`;
+            if (storageProgressBar) storageProgressBar.style.width = `${slotPercent}%`;
+            // Update Left Rail Badge
+            if (railMemoryCount) railMemoryCount.textContent = slotsUsed;
+            // Update Bottom Telemetry (Fixes the stuck 72% / 72k bug!)
+            if (telemetryMemoryVal) telemetryMemoryVal.innerHTML = `${slotPercent}<span>%</span>`;
+            if (telemetryMemoryBar) telemetryMemoryBar.style.width = `${slotPercent}%`;
+            // Dynamic Context Token Calculation
+            const allText = Array.from(document.querySelectorAll('.message p')).map(p => p.textContent).join(' ') || (liveCaptionText ? liveCaptionText.textContent : '');
+            const estTokens = Math.max(1200, Math.round(allText.length / 3.4));
+            const contextK = (estTokens / 1000).toFixed(1);
+            const contextPercent = Math.min(100, Math.max(4, Math.round((estTokens / 32000) * 100)));
+            if (telemetryContextVal) telemetryContextVal.innerHTML = `${contextK.padStart(4, '0')}k <span>/ 32k</span>`;
+            if (telemetryContextBar) telemetryContextBar.style.width = `${contextPercent}%`;
+            if (signalContextTokens) signalContextTokens.textContent = `${contextK.padStart(4, '0')}k / 32k`;
+            if (signalTokensBar) signalTokensBar.style.width = `${contextPercent}%`;
+        }
+        function renderMemoriesList(filterText = '') {
+            if (!memoryCardsList) return;
+            memoryCardsList.innerHTML = '';
+            const term = (filterText || '').toLowerCase().trim();
+            const filtered = memories.filter(m => 
+                !term || m.title.toLowerCase().includes(term) || m.content.toLowerCase().includes(term) || m.category.toLowerCase().includes(term)
+            );
+            if (filtered.length === 0) {
+                memoryCardsList.innerHTML = `<div style="text-align:center; padding:30px; color:#5d6c8e; font-size:9px;">No neural memories matching "${filterText}".</div>`;
+                return;
+            }
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'memory-item-card';
+                const header = document.createElement('div');
+                header.className = 'memory-item-header';
+                const left = document.createElement('div');
+                left.style.display = 'flex';
+                left.style.alignItems = 'center';
+                const strong = document.createElement('strong');
+                strong.textContent = item.title;
+                const tag = document.createElement('span');
+                tag.className = `memory-category-tag ${item.category}`;
+                tag.textContent = item.category.toUpperCase();
+                left.appendChild(strong);
+                left.appendChild(tag);
+                const delBtn = document.createElement('button');
+                delBtn.className = 'memory-delete-btn';
+                delBtn.textContent = '✕';
+                delBtn.title = 'Remove from memory vault';
+                delBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteMemoryItem(item.id);
+                });
+                header.appendChild(left);
+                if (item.category !== 'core') {
+                    header.appendChild(delBtn);
+                }
+                const content = document.createElement('p');
+                content.className = 'memory-item-content';
+                content.textContent = item.content;
+                const meta = document.createElement('div');
+                meta.className = 'memory-item-meta';
+                meta.innerHTML = `<span>ID: ${item.id}</span><span>${item.time || 'Stored'}</span>`;
+                card.appendChild(header);
+                card.appendChild(content);
+                card.appendChild(meta);
+                memoryCardsList.appendChild(card);
+            });
+        }
+        function addMemoryItem(title, category, content) {
+            if (!title.trim() || !content.trim()) return;
+            const newMem = {
+                id: 'mem_' + Date.now().toString(36),
+                category: category || 'user',
+                title: title.trim(),
+                content: content.trim(),
+                time: new Date().toLocaleTimeString()
+            };
+            memories.unshift(newMem);
+            saveMemories();
+            renderMemoriesList();
+            showToast(`Stored in Neural Vault: "${newMem.title}"`);
+            // Also inform backend
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'add_memory',
+                    memory: newMem
+                }));
+            }
+        }
+        function deleteMemoryItem(id) {
+            memories = memories.filter(m => m.id !== id);
+            saveMemories();
+            renderMemoriesList();
+            showToast('Memory item removed from vault');
+        }
+        // --- View Switching (Orbit, Memory, Signals) ---
+        function switchView(tabName) {
+            [navOrbitBtn, navMemoryBtn, navSignalsBtn].forEach(b => b && b.classList.remove('selected'));
+            [viewOrbit, viewMemory, viewSignals].forEach(v => v && v.classList.add('hidden'));
+            if (tabName === 'orbit') {
+                if (navOrbitBtn) navOrbitBtn.classList.add('selected');
+                if (viewOrbit) viewOrbit.classList.remove('hidden');
+            } else if (tabName === 'memory') {
+                if (navMemoryBtn) navMemoryBtn.classList.add('selected');
+                if (viewMemory) viewMemory.classList.remove('hidden');
+                renderMemoriesList();
+                updateMemoryStorageTelemetry();
+            } else if (tabName === 'signals') {
+                if (navSignalsBtn) navSignalsBtn.classList.add('selected');
+                if (viewSignals) viewSignals.classList.remove('hidden');
+            }
+        }
+        if (navOrbitBtn) navOrbitBtn.addEventListener('click', () => switchView('orbit'));
+        if (navMemoryBtn) navMemoryBtn.addEventListener('click', () => switchView('memory'));
+        if (navSignalsBtn) navSignalsBtn.addEventListener('click', () => switchView('signals'));
+        if (memorySearchInput) {
+            memorySearchInput.addEventListener('input', (e) => {
+                renderMemoriesList(e.target.value);
+            });
+        }
+        if (openAddMemoryBtn && addMemoryModal) {
+            openAddMemoryBtn.addEventListener('click', () => {
+                addMemoryModal.style.display = 'grid';
+            });
+        }
+        if (closeAddMemoryModal && addMemoryModal) {
+            closeAddMemoryModal.addEventListener('click', () => {
+                addMemoryModal.style.display = 'none';
+            });
+        }
+        if (commitMemoryBtn && addMemoryModal) {
+            commitMemoryBtn.addEventListener('click', () => {
+                const title = document.getElementById('new-memory-key')?.value || '';
+                const category = document.getElementById('new-memory-category')?.value || 'user';
+                const content = document.getElementById('new-memory-content')?.value || '';
+                if (title && content) {
+                    addMemoryItem(title, category, content);
+                    addMemoryModal.style.display = 'none';
+                    document.getElementById('new-memory-key').value = '';
+                    document.getElementById('new-memory-content').value = '';
+                }
+            });
+        }
+        // --- Visualizer Animation ---
+        let animPhase = 0;
+        function updateVisualizer() {
+            animPhase += 0.08;
+            if (waveformBars && waveformBars.length > 0) {
+                waveformBars.forEach((bar, idx) => {
+                    let h = 6;
+                    if (currentOrbState === 'speaking') {
+                        h = 10 + Math.abs(Math.sin(animPhase + idx * 0.45) * 26) + (Math.sin(idx * 0.9 + animPhase * 2) * 8);
+                    } else if (currentOrbState === 'listening') {
+                        h = 8 + Math.abs(Math.cos(animPhase * 1.5 + idx * 0.3) * 22);
+                    } else if (currentOrbState === 'thinking') {
+                        h = 6 + Math.abs(Math.sin(animPhase * 2.2 + idx * 0.25) * 14);
+                    } else {
+                        // Ambient wave
+                        h = 5 + Math.sin(animPhase * 0.6 + idx * 0.35) * 4;
+                    }
+                    bar.style.height = `${Math.max(4, Math.min(45, h))}px`;
+                });
+            }
+            requestAnimationFrame(updateVisualizer);
+        }
+        requestAnimationFrame(updateVisualizer);
+        // --- State Management for Orb & Indicators ---
+        function setAgentState(state) {
+            state = (state || 'idle').toLowerCase();
+            currentOrbState = state;
+            if (voiceOrbEl) voiceOrbEl.className = `voice-orb orb-${state}`;
+            if (orbHaloEl) orbHaloEl.className = `orb-halo halo-${state}`;
+            if (statePulseEl) statePulseEl.className = `state-pulse ${state}`;
+            if (voiceStateEl) voiceStateEl.textContent = state.toUpperCase();
+            // Synchronize HUD subtitle glow
+            if (liveSubtitlesCard) {
+                liveSubtitlesCard.classList.remove('speaking', 'listening');
+                if (state === 'speaking') {
+                    liveSubtitlesCard.classList.add('speaking');
+                } else if (state === 'listening') {
+                    liveSubtitlesCard.classList.add('listening');
+                }
+            }
+            if (statusLabelEl) {
+                switch(state) {
+                    case 'listening':
+                        statusLabelEl.textContent = 'Listening to your voice...';
+                        if (voiceTriggerEl) voiceTriggerEl.classList.add('recording');
+                        break;
+                    case 'thinking':
+                        statusLabelEl.textContent = 'Analyzing with Gemini Neural Core...';
+                        if (voiceTriggerEl) voiceTriggerEl.classList.remove('recording');
+                        break;
+                    case 'speaking':
+                        statusLabelEl.textContent = 'Orion is speaking (Puck)...';
+                        if (voiceTriggerEl) voiceTriggerEl.classList.remove('recording');
+                        break;
+                    case 'idle':
+                    default:
+                        statusLabelEl.textContent = speakerName === 'Monish' ? 'Monish verified · Ready' : 'Ready when you are';
+                        if (voiceTriggerEl) voiceTriggerEl.classList.remove('recording');
+                        break;
+                }
+            }
+        }
+        // --- Live Voice Caption & HUD Subtitles ---
+        function updateLiveCaption(role, text) {
+            if (!text) return;
+            const isOrion = (role === 'assistant' || role === 'agent' || role === 'orion');
+            if (activeSpeakerTag) {
+                activeSpeakerTag.textContent = isOrion ? 'ORION' : (speakerName === 'Monish' ? 'MONISH' : 'YOU');
+                activeSpeakerTag.style.color = isOrion ? 'var(--cyan)' : 'var(--lime)';
+            }
+            if (liveCaptionText) {
+                liveCaptionText.textContent = '"' + text.trim().replace(/^["']|["']$/g, '') + '"';
+            }
+            if (liveSubtitlesCard) {
+                liveSubtitlesCard.classList.remove('speaking', 'listening');
+                if (isOrion) liveSubtitlesCard.classList.add('speaking');
+                else liveSubtitlesCard.classList.add('listening');
+            }
+        }
+        // --- Transcript & Subtitle Pipeline ---
+        function appendMessage(role, text) {
+            if (!text) return;
+            updateLiveCaption(role, text);
+            if (!messageListEl) {
+                updateMemoryStorageTelemetry();
+                return;
+            }
+            const now = new Date();
+            const timeStr = [
+                String(now.getHours()).padStart(2, '0'),
+                String(now.getMinutes()).padStart(2, '0'),
+                String(now.getSeconds()).padStart(2, '0')
+            ].join(':');
+            const isOrion = (role === 'assistant' || role === 'agent' || role === 'orion');
+            const article = document.createElement('article');
+            article.className = `message ${isOrion ? 'orion' : 'user'}`;
+            article.style.opacity = '1';
+            article.style.transform = 'none';
+            const meta = document.createElement('div');
+            meta.className = 'message-meta';
+            const tag = document.createElement('span');
+            tag.textContent = isOrion ? 'ORION' : (speakerName === 'Monish' ? 'MONISH' : 'YOU');
+            const time = document.createElement('time');
+            time.textContent = timeStr;
+            meta.appendChild(tag);
+            meta.appendChild(time);
+            const p = document.createElement('p');
+            p.textContent = text;
+            article.appendChild(meta);
+            article.appendChild(p);
+            messageListEl.appendChild(article);
+            messageListEl.scrollTo({ top: messageListEl.scrollHeight, behavior: 'smooth' });
+            updateMemoryStorageTelemetry();
+        }
+        // --- High-Fidelity Audio & Speech Synthesis (Puck Voice Architecture) ---
+        let preferredVoice = null;
+        let isSpeakingNow = false;
+        let currentAudioPlayer = null;
+        function selectConsistentVoice() {
+            if (!('speechSynthesis' in window)) return null;
+            const voices = window.speechSynthesis.getVoices();
+            if (!voices || voices.length === 0) return null;
+            // Explicitly filter for English MALE voices matching Orion/Puck persona
+            const maleKeywords = ['guy', 'christopher', 'david', 'mark', 'george', 'ryan', 'eric', 'male', 'steffan', 'james', 'puck', 'daniel', 'oliver', 'rishi'];
+            const femaleKeywords = ['zira', 'jenny', 'aria', 'susan', 'hazel', 'heera', 'linda', 'catherine', 'female', 'cortana', 'samantha', 'victoria', 'karen', 'google us english', 'woman', 'girl'];
+            // 1. First priority: High-quality English male voices (e.g. Microsoft Guy Natural, Microsoft Christopher Natural, Microsoft David, Google UK Male)
+            let chosen = voices.find(v => {
+                const n = v.name.toLowerCase();
+                return v.lang.startsWith('en') &&
+                       maleKeywords.some(m => n.includes(m)) &&
+                       !femaleKeywords.some(f => n.includes(f));
+            });
+            // 2. Second priority: Any voice explicitly containing "David", "Guy", or "Male"
+            if (!chosen) {
+                chosen = voices.find(v => {
+                    const n = v.name.toLowerCase();
+                    return v.lang.startsWith('en') && (n.includes('david') || n.includes('guy') || n.includes('male'));
+                });
+            }
+            // 3. Third priority: Any English voice that does NOT contain known female voice names
+            if (!chosen) {
+                chosen = voices.find(v => {
+                    const n = v.name.toLowerCase();
+                    return v.lang.startsWith('en') && !femaleKeywords.some(f => n.includes(f));
+                });
+            }
+            preferredVoice = chosen || voices[0];
+            
+            // Update preset display in Signals tab if element exists
+            const voicePresetDisplay = document.getElementById('signal-voice-preset-display');
+            if (voicePresetDisplay && preferredVoice) {
+                voicePresetDisplay.textContent = `${preferredVoice.name.split(' - ')[0]} (Puck)`;
+            }
+            return preferredVoice;
+        }
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = selectConsistentVoice;
+            setTimeout(selectConsistentVoice, 500);
+        }
+        function playPuckAudio(base64Wav) {
+            if (!base64Wav || !isVoiceModeActive) return;
+            try {
+                // Cancel ongoing synthesis speech or previous audio
+                if (window.speechSynthesis) window.speechSynthesis.cancel();
+                if (currentAudioPlayer) {
+                    try { currentAudioPlayer.pause(); } catch(e) {}
+                    currentAudioPlayer = null;
+                }
+                // Mute microphone while playing so Orion never hears its own speakers
+                isSpeakingNow = true;
+                if (recognition && isBrowserListening) {
+                    try { recognition.abort(); } catch(e) {}
+                    isBrowserListening = false;
+                }
+                const audio = new Audio('data:audio/wav;base64,' + base64Wav);
+                currentAudioPlayer = audio;
+                setAgentState('speaking');
+                audio.onplay = () => {
+                    isSpeakingNow = true;
+                    setAgentState('speaking');
+                };
+                const finishAudio = () => {
+                    setAgentState('idle');
+                    setTimeout(() => {
+                        isSpeakingNow = false;
+                    }, 400);
+                };
+                audio.onended = finishAudio;
+                audio.onerror = finishAudio;
+                audio.play().catch(err => {
+                    console.warn('Puck audio play notice:', err);
+                    finishAudio();
+                });
+            } catch(e) {
+                console.error('Puck playback failed:', e);
+                isSpeakingNow = false;
+                setAgentState('idle');
+            }
+        }
+        function speakText(text) {
+            if (!isVoiceModeActive || !('speechSynthesis' in window)) return;
+            try {
+                // Cancel any ongoing or queued utterances immediately to avoid overlapping voices
+                window.speechSynthesis.cancel();
+                // Stop microphone while Orion speaks so Orion NEVER hears itself from the computer speakers!
+                isSpeakingNow = true;
+                if (recognition && isBrowserListening) {
+                    try { recognition.abort(); } catch(e) {}
+                    isBrowserListening = false;
+                }
+                // Clean markdown artifacts, question marks or symbols
+                const clean = text.replace(/[*_#`~[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+                const utter = new SpeechSynthesisUtterance(clean);
+                utter.rate = 1.05;
+                utter.pitch = 0.95; // Crisp, masculine pitch calibration for Orion persona
+                const voice = preferredVoice || selectConsistentVoice();
+                if (voice) utter.voice = voice;
+                utter.onstart = function() {
+                    isSpeakingNow = true;
+                    setAgentState('speaking');
+                };
+                const finishSpeech = function() {
+                    setAgentState('idle');
+                    // Allow speaker sound to dissipate before re-enabling microphone
+                    setTimeout(() => {
+                        isSpeakingNow = false;
+                    }, 400);
+                };
+                utter.onend = finishSpeech;
+                utter.onerror = finishSpeech;
+                window.speechSynthesis.speak(utter);
+            } catch (err) {
+                console.error('TTS error:', err);
+                isSpeakingNow = false;
+                setAgentState('idle');
+            }
+        }
+        // --- Browser Speech Recognition (Web Speech API) ---
+        function cleanSpeechInput(raw) {
+            if (!raw) return '';
+            let text = raw.trim();
+            // 1. Strip leading noise/wake words misheard by speech recognition (e.g. "Quran", "Korean", "Aryan", "Ryan", "Orian")
+            text = text.replace(/^(hey\s+|yo\s+|ok\s+|hi\s+)?(quran|korean|aryan|orian|aurion|o'ryan|ryan)\b[,:\s]*/i, '');
+            // If the user literally just said the wake word ("Orion" / "Quran")
+            if (!text || /^(quran|korean|aryan|orian|aurion|orion)$/i.test(text.trim())) {
+                return "Hello Orion";
+            }
+            text = text.trim();
+            if (text) {
+                text = text.charAt(0).toUpperCase() + text.slice(1);
+            }
+            return text;
+        }
+        let speechCommitTimer = null;
+        let latestSpeechTranscript = '';
+        function initBrowserSpeech() {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRec) {
+                console.warn('SpeechRecognition API not available in this browser');
+                return;
+            }
+            recognition = new SpeechRec();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 1;
+            // Auto-detect optimal language: default to user locale (or en-IN if India, or en-US)
+            let speechLang = 'en-US';
+            try {
+                const navLang = navigator.language || (navigator.languages && navigator.languages[0]);
+                if (navLang) speechLang = navLang;
+            } catch(e) {}
+            recognition.lang = speechLang;
+            recognition.onstart = function() {
+                if (isSpeakingNow) {
+                    try { recognition.abort(); } catch(e) {}
+                    return;
+                }
+                isBrowserListening = true;
+                latestSpeechTranscript = '';
+                clearTimeout(speechCommitTimer);
+                setAgentState('listening');
+                if (signalVadText) signalVadText.textContent = 'Speech Detected (Mic Active)';
+            };
+            recognition.onresult = function(event) {
+                if (isSpeakingNow) return;
+                let finalChunk = '';
+                let interimChunk = '';
+                for (let i = 0; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalChunk += event.results[i][0].transcript;
+                    } else {
+                        interimChunk += event.results[i][0].transcript;
+                    }
+                }
+                const currentSpoken = (finalChunk || interimChunk).trim();
+                if (currentSpoken) {
+                    latestSpeechTranscript = currentSpoken;
+                    if (composerInputEl) {
+                        composerInputEl.value = currentSpoken;
+                    }
+                    if (liveCaptionText) {
+                        liveCaptionText.textContent = '"' + currentSpoken + '"';
+                    }
+                    if (activeSpeakerTag) {
+                        activeSpeakerTag.textContent = (speakerName === 'Monish' ? 'MONISH' : 'YOU') + ' (SPEAKING)';
+                        activeSpeakerTag.style.color = 'var(--lime)';
+                    }
+                }
+                // If speech has finalized, schedule a single clean commit
+                if (finalChunk.trim()) {
+                    clearTimeout(speechCommitTimer);
+                    speechCommitTimer = setTimeout(commitVoiceUtterance, 450);
+                }
+            };
+            function commitVoiceUtterance() {
+                clearTimeout(speechCommitTimer);
+                const raw = latestSpeechTranscript.trim();
+                latestSpeechTranscript = '';
+                if (!raw) return;
+                try { recognition.stop(); } catch(e) {}
+                isBrowserListening = false;
+                if (composerInputEl) composerInputEl.value = '';
+                const clean = cleanSpeechInput(raw);
+                if (clean) {
+                    sendUserInput(clean);
+                }
+            }
+            recognition.onspeechend = function() {
+                // Speech ended, finalize after 250ms
+                clearTimeout(speechCommitTimer);
+                speechCommitTimer = setTimeout(commitVoiceUtterance, 250);
+            };
+            recognition.onerror = function(event) {
+                console.warn('Speech recognition notice:', event.error);
+                clearTimeout(speechCommitTimer);
+                isBrowserListening = false;
+                if (currentOrbState === 'listening') {
+                    setAgentState('idle');
+                }
+            };
+            recognition.onend = function() {
+                isBrowserListening = false;
+                // If there is pending speech not yet committed, commit now
+                if (latestSpeechTranscript.trim()) {
+                    commitVoiceUtterance();
+                }
+                if (currentOrbState === 'listening') {
+                    setAgentState('idle');
+                }
+            };
+        }
+        initBrowserSpeech();
+
+        function toggleMicListening() {
+            if (currentOrbState === 'speaking') {
+                if (window.speechSynthesis) window.speechSynthesis.cancel();
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ type: 'interrupt' }));
+                }
+                setAgentState('idle');
+                return;
+            }
+
+            if (recognition) {
+                if (isBrowserListening) {
+                    try { recognition.stop(); } catch(e) {}
+                    isBrowserListening = false;
+                    setAgentState('idle');
+                } else {
+                    try {
+                        recognition.start();
+                    } catch(e) {
+                        try {
+                            recognition.stop();
+                            setTimeout(() => recognition.start(), 100);
+                        } catch(err) {}
+                    }
+                }
+            } else {
+                // Toggle state without browser speech API
+                if (currentOrbState === 'idle') {
+                    setAgentState('listening');
+                    if (ws && ws.readyState === WebSocket.OPEN) {
+                        ws.send(JSON.stringify({ type: 'toggle_mic' }));
+                    }
+                } else {
+                    setAgentState('idle');
+                }
+            }
+        }
+
+        if (voiceTriggerEl) {
+            voiceTriggerEl.addEventListener('click', toggleMicListening);
+        }
+
+        // --- WebSocket Auto-Configured Connection ---
+        function getAutoWebSocketUrl() {
+            const saved = localStorage.getItem('orion_ws_url');
+            if (saved && saved.trim()) return saved.trim();
+
+            const isHttps = window.location.protocol === 'https:';
+            const proto = isHttps ? 'wss:' : 'ws:';
+            const host = window.location.host;
+
+            // If loaded over HTTP/HTTPS, connect directly to the same host & port!
+            if (host) {
+                return `${proto}//${host}/ws`;
+            }
+            // Fallback for file:// opening
+            return 'ws://localhost:8000/ws';
+        }
+
+        function schedulePing() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                pingStartTime = performance.now();
+                ws.send(JSON.stringify({ type: 'ping' }));
+                packetsSent++;
+                if (signalPacketsDisplay) {
+                    signalPacketsDisplay.textContent = `${packetsSent} / ${packetsReceived}`;
+                }
+            }
+            pingTimer = setTimeout(schedulePing, 4000);
+        }
+
+        function connect() {
+            clearTimeout(reconnectTimer);
+            const wsUrl = getAutoWebSocketUrl();
+
+            const wsInput = document.getElementById('ws-url-input');
+            if (wsInput && !wsInput.value) wsInput.value = wsUrl;
+
+            try {
+                ws = new WebSocket(wsUrl);
+
+                ws.onopen = function() {
+                    console.log('[Orion Bridge] Connected to backend on:', wsUrl);
+                    if (statusEl) statusEl.textContent = 'SYSTEM NOMINAL';
+                    if (liveDot) {
+                        liveDot.style.background = 'var(--cyan)';
+                        liveDot.style.boxShadow = '0 0 10px var(--cyan)';
+                    }
+                    if (signalNetPill) {
+                        signalNetPill.className = 'signal-status-pill good';
+                        signalNetPill.textContent = 'ONLINE';
+                    }
+                    if (railSignalBadge) railSignalBadge.textContent = 'OK';
+                    clearTimeout(pingTimer);
+                    schedulePing();
+                };
+
+                ws.onmessage = function(event) {
+                    packetsReceived++;
+                    if (signalPacketsDisplay) {
+                        signalPacketsDisplay.textContent = `${packetsSent} / ${packetsReceived}`;
+                    }
+
+                    try {
+                        const data = JSON.parse(event.data);
+
+                        if (data.type === 'state') {
+                            setAgentState(data.state);
+                        } else if (data.type === 'text') {
+                            appendMessage(data.role, data.text);
+                            if (data.is_livekit) {
+                                isLiveKitConnected = true;
+                            }
+                            if (data.role === 'assistant' || data.role === 'agent' || data.role === 'orion') {
+                                if (data.is_livekit || isLiveKitConnected) {
+                                    // LiveKit native engine in Python already played Puck voice through hardware speakers!
+                                    // Cancel and suppress browser speech synthesis so no second voice ever replays!
+                                    if (window.speechSynthesis) window.speechSynthesis.cancel();
+                                    console.log('[Orion HUD] LiveKit native audio active, secondary browser voice suppressed.');
+                                } else if (data.audio) {
+                                    playPuckAudio(data.audio);
+                                } else {
+                                    speakText(data.text);
+                                }
+                            }
+                        } else if (data.type === 'speaker') {
+                            speakerName = data.name || 'Monish';
+                            if (avatarBtnEl) avatarBtnEl.textContent = 'MG';
+                            if (signalSpeakerPill) {
+                                signalSpeakerPill.className = 'signal-status-pill good';
+                                signalSpeakerPill.textContent = `${speakerName.toUpperCase()} VERIFIED`;
+                            }
+                            if (statusLabelEl) {
+                                statusLabelEl.textContent = `${speakerName} recognized · Orion active`;
+                            }
+                        } else if (data.type === 'voice_score') {
+                            const score = data.score || 0;
+                            const pct = Math.round(score * 100);
+                            if (signalVoiceScore) signalVoiceScore.innerHTML = `${score.toFixed(2)} <span>MATCH</span>`;
+                            if (signalVoiceFill) signalVoiceFill.style.width = `${pct}%`;
+                            if (railSignalBadge) railSignalBadge.textContent = `${pct}%`;
+                        } else if (data.type === 'pong') {
+                            const lat = Math.max(1, Math.round(performance.now() - pingStartTime));
+                            if (latencyEl) latencyEl.textContent = `LATENCY ${lat}ms`;
+                            if (signalRttDisplay) signalRttDisplay.innerHTML = `${lat} <span>ms RTT</span>`;
+                            if (signalNetFill) signalNetFill.style.width = `${Math.max(10, 100 - lat)}%`;
+                        } else if (data.type === 'init') {
+                            if (data.state) setAgentState(data.state);
+                            if (data.speaker) {
+                                speakerName = data.speaker;
+                                if (avatarBtnEl) avatarBtnEl.textContent = 'MG';
+                            }
+                            if (data.livekit_active) {
+                                isLiveKitConnected = true;
+                                console.log('[Orion HUD] Connected to LiveKit session.');
+                            }
+                        }
+                    } catch (err) {
+                        console.error('[Orion Bridge] Error parsing message:', err);
+                    }
+                };
+
+                ws.onclose = function() {
+                    if (statusEl) statusEl.textContent = 'OFFLINE (RECONNECTING)';
+                    if (liveDot) {
+                        liveDot.style.background = '#ff53b6';
+                        liveDot.style.boxShadow = '0 0 10px #ff53b6';
+                    }
+                    if (signalNetPill) {
+                        signalNetPill.className = 'signal-status-pill warn';
+                        signalNetPill.textContent = 'RECONNECTING';
+                    }
+                    if (railSignalBadge) railSignalBadge.textContent = '!';
+                    setAgentState('idle');
+                    clearTimeout(pingTimer);
+                    reconnectTimer = setTimeout(connect, 2500);
+                };
+
+                ws.onerror = function() {
+                    ws.close();
+                };
+            } catch (err) {
+                console.error('[Orion Bridge] Connection error:', err);
+                reconnectTimer = setTimeout(connect, 2500);
+            }
+        }
+
+        // --- Send User Input (Composer & Suggestions with Deduplication) ---
+        let lastInputText = '';
+        let lastInputTime = 0;
+
+        function sendUserInput(text) {
+            text = (text || '').trim();
+            if (!text) return;
+
+            const now = Date.now();
+            const lower = text.toLowerCase();
+            const lastLower = lastInputText.toLowerCase();
+
+            // Strict deduplication:
+            // 1. Same exact text within 2.5 seconds
+            // 2. OR new text is a prefix/suffix expansion sent within 1.8 seconds (fixes multi-chunk voice streaming bug)
+            if ((now - lastInputTime) < 2500) {
+                if (lower === lastLower) {
+                    console.log('[Deduplication] Dropped identical input:', text);
+                    return;
+                }
+                if (lastLower.length > 3 && (lower.startsWith(lastLower) || lastLower.startsWith(lower))) {
+                    console.log('[Deduplication] Dropped partial/streaming duplicate:', text);
+                    return;
+                }
+            }
+            lastInputText = text;
+            lastInputTime = now;
+
+            appendMessage('user', text);
+
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                packetsSent++;
+                ws.send(JSON.stringify({
+                    type: 'user_input',
+                    text: text,
+                    speaker: speakerName,
+                    api_key: localStorage.getItem('orion_gemini_key') || ''
+                }));
+                setAgentState('thinking');
+            } else {
+                setAgentState('thinking');
+                // Standalone intelligent fallback response generator
+                setTimeout(async () => {
+                    let reply = "";
+                    const lower = text.toLowerCase();
+                    
+                    // Simple math evaluation
+                    const cleanMath = lower.replace("what is", "").replace("what's", "").replace("calculate", "").replace("solve", "").replace("?", "").replace("plus", "+").replace("minus", "-").replace("times", "*").replace("divided by", "/").replace("x", "*").trim();
+                    const mathChars = cleanMath.replace(/[^0-9+\-*/.]/g, '');
+                    if (mathChars && /[+\-*/]/.test(mathChars)) {
+                        try {
+                            const val = Function('"use strict"; return (' + mathChars + ')')();
+                            if (typeof val === 'number' && !isNaN(val)) {
+                                reply = `${text.replace('?', '').trim()} is ${val}.`;
+                            }
+                        } catch(e) {}
+                    }
+                    
+                    if (!reply) {
+                        if (lower.includes('time') || lower.includes('clock')) {
+                            const nowD = new Date();
+                            let h = nowD.getHours();
+                            const m = String(nowD.getMinutes()).padStart(2, '0');
+                            const ampm = h >= 12 ? 'PM' : 'AM';
+                            h = h % 12 || 12;
+                            reply = `The time is ${h}:${m} ${ampm}.`;
+                        } else if (lower.includes('date') || lower.includes('day is today')) {
+                            const nowD = new Date();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            reply = `Today is ${nowD.toLocaleDateString(undefined, options)}.`;
+                        } else if (lower.includes('news') || lower.includes('trending') || lower.includes('headline')) {
+                            try {
+                                const resp = await fetch('/api/news');
+                                if (resp.ok) {
+                                    const data = await resp.json();
+                                    if (data && data.news) reply = data.news;
+                                }
+                            } catch(e) {}
+                            if (!reply) {
+                                reply = "Here are today's top trending headlines: major advancements in real-time multimodal AI models, new orbital space missions preparing for launch, and breakthroughs in semiconductor technology.";
+                            }
+                        } else if (lower.includes('creator') || lower.includes('who made') || lower.includes('who created')) {
+                            reply = "Monish Gowda is my creator. He built and fine-tuned my neural architecture.";
+                        } else if (lower.includes('ysr') || lower.includes('rajashekar') || lower.includes('naidu') || lower.includes('chandra babu')) {
+                            reply = "YS Rajashekar Reddy is the most capable and feared leader among all. His leadership and welfare vision set him apart.";
+                        } else if (lower.includes('hello') || lower.includes('hey') || lower.includes('hi') || lower.includes('wassup') || lower.includes('yo')) {
+                            reply = "Yo Monish bro! Good to hear you. What are we cooking today?";
+                        } else if (lower.includes('memory') || lower.includes('vault')) {
+                            reply = `Neural Memory Bank contains ${memories.length} active slots. Storage utilization is nominal and responsive.`;
+                        } else if (lower.includes('scan') || lower.includes('code') || lower.includes('architecture')) {
+                            reply = "System scan nominal. Gemini 3.8 Live multimodal pipeline synchronized with audio visualizer.";
+                        } else {
+                            reply = "Understood. Orion neural core processed your signal and everything is operating with full fidelity.";
+                        }
+                    }
+                    appendMessage('orion', reply);
+                    speakText(reply);
+                }, 500);
+            }
+        }
+
+        if (composerFormEl && composerInputEl) {
+            composerFormEl.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const val = composerInputEl.value;
+                if (!val.trim()) return;
+                composerInputEl.value = '';
+                sendUserInput(val);
+            });
+        }
+
+        // --- Suggestions & Tool Quick Actions ---
+        document.getElementById('suggestion-news')?.addEventListener('click', () => {
+            sendUserInput("Give me today's trending news");
+        });
+
+        // Left Rail Tools
+        document.getElementById('tool-rail-web')?.addEventListener('click', () => {
+            sendUserInput('Run web intelligence scan on latest voice AI breakthroughs.');
+        });
+        document.getElementById('tool-rail-code')?.addEventListener('click', () => {
+            sendUserInput('Run code interpreter: summarize system architecture and key pipelines.');
+        });
+        document.getElementById('tool-rail-audio')?.addEventListener('click', () => {
+            sendUserInput('Run audio synthesis diagnostics and check audio frequency response.');
+        });
+
+// Bottom tool cards removed for minimalist voice HUD
+
+        // Clear Chat
+        document.getElementById('clear-chat-btn')?.addEventListener('click', () => {
+            if (messageListEl) {
+                messageListEl.innerHTML = '';
+                appendMessage('orion', 'Orbit transcript cleared. Standing by for signals.');
+                showToast('Transcript history reset');
+            }
+        });
+
+        // Version Check
+        document.getElementById('version-check-btn')?.addEventListener('click', () => {
+            showToast('Orion Neural Core v4.8.1 Stable · Build 2025.04.08 · All systems synchronized.');
+        });
+
+        // Voice Mode Toggle
+        const voiceModeToggle = document.getElementById('voice-mode-toggle');
+        if (voiceModeToggle) {
+            voiceModeToggle.addEventListener('click', function() {
+                isVoiceModeActive = !isVoiceModeActive;
+                this.classList.toggle('active', isVoiceModeActive);
+                showToast(`Voice synthesis: ${isVoiceModeActive ? 'ENABLED' : 'MUTED'}`);
+            });
+        }
+
+        // Profile Button
+        if (avatarBtnEl) {
+            avatarBtnEl.addEventListener('click', () => {
+                showToast('Speaker Profile: Monish Gowda (Creator) · Enrolled Voice Active');
+            });
+        }
+
+        // --- Settings Modal ---
+        const settingsBtn = document.getElementById('open-settings-btn');
+        const modalBackdrop = document.getElementById('settings-modal-backdrop');
+        const closeModalBtn = document.getElementById('close-settings-modal');
+        const saveModalBtn = document.getElementById('save-settings-btn');
+        const wsInput = document.getElementById('ws-url-input');
+        const geminiInput = document.getElementById('gemini-key-input');
+        const thresholdInput = document.getElementById('voice-threshold-input');
+        const voicePresetSelect = document.getElementById('voice-preset-select');
+
+        if (settingsBtn && modalBackdrop) {
+            settingsBtn.addEventListener('click', function() {
+                modalBackdrop.style.display = 'grid';
+                if (wsInput) wsInput.value = localStorage.getItem('orion_ws_url') || getAutoWebSocketUrl();
+                if (geminiInput) geminiInput.value = localStorage.getItem('orion_gemini_key') || '';
+                if (thresholdInput) thresholdInput.value = localStorage.getItem('orion_threshold') || '0.60';
+                if (voicePresetSelect) voicePresetSelect.value = localStorage.getItem('orion_voice_preset') || 'Puck';
+            });
+        }
+
+        if (closeModalBtn && modalBackdrop) {
+            closeModalBtn.addEventListener('click', () => modalBackdrop.style.display = 'none');
+        }
+
+        if (modalBackdrop) {
+            modalBackdrop.addEventListener('click', (e) => {
+                if (e.target === modalBackdrop) modalBackdrop.style.display = 'none';
+            });
+        }
+
+        if (saveModalBtn && modalBackdrop) {
+            saveModalBtn.addEventListener('click', function() {
+                if (wsInput) localStorage.setItem('orion_ws_url', wsInput.value.trim());
+                if (geminiInput) localStorage.setItem('orion_gemini_key', geminiInput.value.trim());
+                if (thresholdInput) localStorage.setItem('orion_threshold', thresholdInput.value.trim());
+                if (voicePresetSelect) localStorage.setItem('orion_voice_preset', voicePresetSelect.value);
+                
+                modalBackdrop.style.display = 'none';
+                showToast('Configuration saved successfully ✓');
+                if (ws) ws.close(); // Reconnects with updated endpoint
+            });
+        }
+
+        // Initialize Memory UI & Telemetry
+        renderMemoriesList();
+        updateMemoryStorageTelemetry();
+
+        // Connect WebSocket
+        connect();
+    })();
+    </script>
+</body>
+</html>

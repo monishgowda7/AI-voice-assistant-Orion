@@ -1,0 +1,7 @@
+websockets>=13.0
+python-dotenv>=1.0.0
+google-genai>=0.1.0
+numpy>=1.24.0
+resemblyzer>=0.1.4
+sounddevice>=0.4.6
+livekit-agents[google]~=1.0
