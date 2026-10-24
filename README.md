@@ -106,6 +106,6 @@ Make sure your microphone is connected and any required API keys or environment 
 - HTML, CSS
 
 
-Built with curiosity and AI 🚀
+Built with curiosity 🚀
 
 Orion — Your voice, your commands, your AI assistant.
