@@ -1,1 +1,1 @@
-web: python AIagent.py
+web: python AIagent.py start
